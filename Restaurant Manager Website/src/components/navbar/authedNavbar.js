@@ -1,0 +1,115 @@
+import React,{useContext, useEffect} from "react";
+import Logo from "../../assets/CBfull1.png";
+import Unilogo from "../../assets/unilogo.png";
+import CartIcon from "../../assets/cart.png";
+import UserIcon from "../../assets/user.png";
+import CommandIcon from "../../assets/command.png";
+import VectorIcon from "../../assets/Vector.png";
+import RestaurantIcon from "../../assets/restaurant-logo.png";
+import Login from "../login";
+import { useState } from "react";
+import { XIcon } from "@heroicons/react/outline";
+import {OrderStateContext} from '../../contexts/orderStateContext'
+import { useDispatch, useSelector } from "react-redux";
+
+import { logout } from "../../actions/userActions";
+import { useLocation, useNavigate } from "react-router-dom";
+export default function Index() {
+  const dispatch = useDispatch();
+  let navigate = useNavigate();
+  let location = useLocation();
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+  useEffect(() => {
+    if (!userInfo) {
+      navigate("/", { replace: true });
+    }
+  }, [ userInfo])
+  const logoutHandler = () => {
+    dispatch(logout());
+  };
+  let [isOpen, setIsOpen] = useState(false);
+  const storeStatus = useContext(OrderStateContext);
+  const [orderStatus, setOrderStatus] = useState("start");
+
+  return (
+    <div className="w-full">
+      <div className="hidden  ml-10 bg-white w-full lg:block  ">
+        {/* left */}
+        <div
+          className="z-[65] mr-10 flex justify-between bg-white pl-5 pr-[30px] rounded-[8px] w-full lg:grid lg:grid-cols-12"
+          style={{ boxShadow: "0px 8px 28px rgba(94, 115, 136, 0.12)" }}
+        >
+          <div className="lg:col-start-1 lg:col-end-3">
+            <img src={Logo} alt="" className="" />
+          </div>
+          {/* right */}
+          <div className="justify-between grid grid-cols-3 w-full lg:col-start-5 lg:col-end-13 items-center pr-12 ">
+            {/* left */}
+
+            {/* right */}
+            <div className="w-full mx-auto flex justify-center my-2 col-start-1 col-end-2">
+              <div className=" flex items-center w-full">
+                <p className="text-[18px] leading-[24px] font-normal mr-3 whitespace-nowrap">
+                  University Of St.Thomas{" "}
+                </p>
+                <div className="mr-5">
+                  <img src={Unilogo} alt="" className="" />
+                </div>
+                <div className="border-black border-[1px] h-full mr-6"></div>
+              </div>
+            </div>
+            <div className="col-start-2 col-end-3 flex gap-2">
+              <div className=" flex items-center w-full">
+                <p className="text-[18px] leading-[24px] font-normal mr-3 whitespace-nowrap">
+                  Good May Restaurant
+                </p>
+                <button className="text-[18px] leading-[24px] font-normal mr-3 whitespace-nowrap bg-primary text-white px-6 py-2 rounded-md" onClick={()=>{logoutHandler()}}>
+                  Logout
+                </button>
+                <div className="mr-5">
+                  <img src={RestaurantIcon} alt="" className="" />
+                </div>
+                <div className="border-black border-[1px] h-full mr-6"></div>
+              </div>
+            </div>
+            <div className="col-start-3 col-end-4 flex justify-end">
+              {storeStatus.status === "pause" ? (
+                <button
+                  className="flex items-center bg-primary text-white w-[237px] h-[56px] rounded-[32px] px-1 py-1 font-bold text-[18px] leading-[20px] text-left"
+                  onClick={() => {
+                    storeStatus.setStatus("open")
+                  }}
+                >
+                  <div
+                    className="bg-white  flex justify-center items-center px-1 py-1 mr-3 h-12 w-12"
+                    style={{ borderRadius: "100%" }}
+                  >
+                    <img src={CommandIcon} alt="" className="" />{" "}
+                  </div>
+                  Activate<br/> Incoming Orders
+                </button>
+              ) : (
+                <button
+                  className="flex items-center bg-[#FF4141] text-white w-[237px] h-[56px] rounded-[32px] px-1 py-1 font-bold text-[18px] leading-[20px] text-left"
+                  onClick={() => {
+                    storeStatus.setStatus("pause")
+                  }}
+                >
+                  <div
+                    className="bg-white  flex justify-center items-center px-1 py-1 mr-3 h-12 w-12"
+                    style={{ borderRadius: "100%" }}
+                  >
+                    <XIcon className="text-red-500 h-6 w-6" />{" "}
+                  </div>
+                  Pause Incoming Orders
+                </button>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+      {isOpen && <Login isOpen={isOpen} setIsOpen={setIsOpen} />}
+    </div>
+  );
+}

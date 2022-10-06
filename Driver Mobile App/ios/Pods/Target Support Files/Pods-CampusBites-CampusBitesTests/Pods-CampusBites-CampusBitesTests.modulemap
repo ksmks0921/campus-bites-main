@@ -1,0 +1,6 @@
+module Pods_CampusBites_CampusBitesTests {
+  umbrella header "Pods-CampusBites-CampusBitesTests-umbrella.h"
+
+  export *
+  module * { export * }
+}

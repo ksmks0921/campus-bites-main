@@ -1,0 +1,14 @@
+com/campusbites/BuildConfig.java
+ com.campusbites.BuildConfig
+com/campusbites/MainActivity.java
+ com.campusbites.MainActivity
+com/campusbites/ReactNativeFlipper.java
+ com.campusbites.ReactNativeFlipper
+ com.campusbites.ReactNativeFlipper$1
+ com.campusbites.ReactNativeFlipper$2
+ com.campusbites.ReactNativeFlipper$2$1
+com/campusbites/MainApplication.java
+ com.campusbites.MainApplication
+ com.campusbites.MainApplication$1
+com/facebook/react/PackageList.java
+ com.facebook.react.PackageList
